@@ -1,0 +1,22 @@
+{
+  "name": "engenharia-ambiental",
+  "version": "1.0.0",
+  "description": "Consultoria e licenciamento ambiental em todo o Brasil. Soluções práticas, tecnológicas e acessíveis.",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "http-server .",
+    "dev": "http-server . -c-1",
+    "build": "echo 'No build step needed for this static site'"
+  },
+  "keywords": [
+    "engenharia ambiental",
+    "consultoria",
+    "licenciamento",
+    "sustentabilidade"
+  ],
+  "author": "Marques Engenharia Ambiental",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

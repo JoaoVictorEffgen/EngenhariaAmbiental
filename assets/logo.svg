@@ -1,0 +1,27 @@
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="36" cy="36" r="36" fill="#faf8f4"/>
+  
+  <!-- Leaf shapes representing environmental focus -->
+  <g transform="translate(36, 36)">
+    <!-- Left leaf -->
+    <path d="M -8 0 Q -12 -8 -8 -12 Q -2 -8 -2 0 Q -2 8 -8 12 Q -12 8 -8 0 Z" 
+          fill="#626c3b" opacity="0.8"/>
+    
+    <!-- Center leaf (larger) -->
+    <path d="M 0 -3 Q -6 -12 0 -16 Q 6 -12 6 -3 Q 6 6 0 12 Q -6 6 0 -3 Z" 
+          fill="#626c3b"/>
+    
+    <!-- Right leaf -->
+    <path d="M 8 0 Q 4 -8 8 -12 Q 14 -8 14 0 Q 14 8 8 12 Q 4 8 8 0 Z" 
+          fill="#626c3b" opacity="0.8"/>
+    
+    <!-- Gold accent circle in center -->
+    <circle cx="0" cy="0" r="3" fill="#d4a844"/>
+  </g>
+  
+  <!-- Accent text or lines -->
+  <text x="36" y="60" font-size="8" font-weight="600" text-anchor="middle" fill="#626c3b" letter-spacing="0.5">
+    ME
+  </text>
+</svg>
