@@ -4,9 +4,39 @@ const navToggle = document.getElementById("navToggle");
 const contactForm = document.getElementById("contactForm");
 const submitBtn = document.getElementById("submitBtn");
 const formFeedback = document.getElementById("formFeedback");
+const heroSlides = document.querySelectorAll(".hero-slide");
+const heroDots = document.querySelectorAll(".hero-dot");
 
 function updateHeader() {
   header.classList.toggle("header--scrolled", window.scrollY > 60);
+}
+
+function initHeroSlider() {
+  if (!heroSlides.length) return;
+
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    heroSlides.forEach((slide, slideIndex) => {
+      slide.classList.toggle("is-active", slideIndex === index);
+    });
+
+    heroDots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("is-active", dotIndex === index);
+    });
+  }
+
+  heroDots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      currentSlide = index;
+      showSlide(currentSlide);
+    });
+  });
+
+  setInterval(() => {
+    currentSlide = (currentSlide + 1) % heroSlides.length;
+    showSlide(currentSlide);
+  }, 5000);
 }
 
 function closeNav() {
@@ -17,6 +47,7 @@ function closeNav() {
 
 window.addEventListener("scroll", updateHeader, { passive: true });
 updateHeader();
+initHeroSlider();
 
 navToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("nav--open");
