@@ -267,7 +267,10 @@ ul {
 .header__cta {
   white-space: nowrap;
   height: 48px;
+  border: 0;
+  outline: none;
   box-shadow: none;
+  background: var(--taiga-gold);
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
