@@ -123,8 +123,13 @@ contactForm?.addEventListener("submit", (event) => {
     `Nome: ${nome}\nEmpresa: ${empresa}\nRamo: ${ramo}\nTelefone: ${telefone}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`
   );
 
-  formFeedback.textContent = "Abrindo seu cliente de e-mail...";
+  const whatsappMessage = encodeURIComponent(
+    `Olá! Gostaria de solicitar um orçamento.\n\nNome: ${nome}\nEmpresa: ${empresa}\nRamo: ${ramo}\nTelefone: ${telefone}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`
+  );
+
+  formFeedback.textContent = "Abrindo o e-mail e o WhatsApp...";
   formFeedback.className = "form-feedback form-feedback--success";
 
+  window.open(`https://wa.me/5527997711577?text=${whatsappMessage}`, "_blank", "noopener,noreferrer");
   window.location.href = `mailto:contato@marquesengenharia.com.br?subject=${subject}&body=${body}`;
 });
