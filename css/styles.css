@@ -267,6 +267,7 @@ ul {
 .header__cta {
   white-space: nowrap;
   height: 48px;
+  box-shadow: none;
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
