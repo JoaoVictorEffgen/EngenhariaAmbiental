@@ -4,39 +4,40 @@ const navToggle = document.getElementById("navToggle");
 const contactForm = document.getElementById("contactForm");
 const submitBtn = document.getElementById("submitBtn");
 const formFeedback = document.getElementById("formFeedback");
-const heroSlides = document.querySelectorAll(".hero-slide");
-const heroDots = document.querySelectorAll(".hero-dot");
-
 function updateHeader() {
   header.classList.toggle("header--scrolled", window.scrollY > 60);
 }
 
-function initHeroSlider() {
-  if (!heroSlides.length) return;
+function initHeroOpen() {
+  const hero = document.querySelector(".hero-open");
+  if (!hero) return;
 
-  let currentSlide = 0;
-
-  function showSlide(index) {
-    heroSlides.forEach((slide, slideIndex) => {
-      slide.classList.toggle("is-active", slideIndex === index);
-    });
-
-    heroDots.forEach((dot, dotIndex) => {
-      dot.classList.toggle("is-active", dotIndex === index);
-    });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    hero.style.setProperty("--p", "1");
+    hero.classList.add("is-settled");
+    return;
   }
 
-  heroDots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      currentSlide = index;
-      showSlide(currentSlide);
-    });
-  });
+  const duration = 3000;
+  const delay = 200;
+  const start = performance.now() + delay;
 
-  setInterval(() => {
-    currentSlide = (currentSlide + 1) % heroSlides.length;
-    showSlide(currentSlide);
-  }, 5000);
+  function frame(now) {
+    const progress = Math.min(Math.max((now - start) / duration, 0), 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    hero.style.setProperty("--p", eased.toFixed(4));
+
+    if (progress < 1) {
+      requestAnimationFrame(frame);
+      return;
+    }
+
+    hero.style.setProperty("--p", "1");
+    hero.classList.add("is-settled");
+  }
+
+  requestAnimationFrame(frame);
 }
 
 function closeNav() {
@@ -47,7 +48,7 @@ function closeNav() {
 
 window.addEventListener("scroll", updateHeader, { passive: true });
 updateHeader();
-initHeroSlider();
+initHeroOpen();
 
 navToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("nav--open");
