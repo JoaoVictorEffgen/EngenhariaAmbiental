@@ -96,6 +96,10 @@ ul {
   margin-bottom: 3rem;
 }
 
+.section-header--center h2 {
+  text-align: center;
+}
+
 .section-header--light .section-label,
 .section-header--light h2,
 .section-header--light .section-subtitle {
@@ -122,6 +126,8 @@ ul {
 .section-subtitle {
   color: var(--muted-foreground);
   font-size: 1.05rem;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .section-header--light .section-subtitle {
@@ -199,10 +205,6 @@ ul {
   color: var(--foreground);
 }
 
-.header--scrolled .logo img {
-  filter: none;
-}
-
 .header__inner {
   display: flex;
   align-items: center;
@@ -215,13 +217,23 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 74px;
-  height: 74px;
+  width: auto;
+  height: auto;
+  max-width: 168px;
 }
 
 .logo img {
+  width: 100%;
+  height: auto;
+  max-height: 72px;
+  object-fit: contain;
   filter: none;
-  transition: filter 0.3s, opacity 0.3s;
+  transition: filter 0.3s, opacity 0.3s, max-height 0.3s;
+}
+
+.header--scrolled .logo img {
+  filter: none;
+  max-height: 64px;
 }
 
 .nav {
@@ -494,6 +506,11 @@ ul {
   align-items: start;
 }
 
+.about-text p {
+  text-align: justify;
+  text-wrap: pretty;
+}
+
 .about-text p + p {
   margin-top: 1rem;
 }
@@ -510,6 +527,7 @@ ul {
   padding: 1.5rem;
   box-shadow: var(--shadow-soft);
   border-left: 4px solid rgba(17, 118, 125, 0.35);
+  text-align: center;
 }
 
 .value-card__icon {
@@ -520,7 +538,7 @@ ul {
   border-radius: 0.65rem;
   background: var(--taiga-cream);
   color: var(--taiga-gold);
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
 }
 
 .value-card__icon svg {
@@ -530,12 +548,15 @@ ul {
 
 .value-card h4 {
   font-size: 1rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .value-card p {
   color: var(--muted-foreground);
   font-size: 0.92rem;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .services-grid {
@@ -577,7 +598,7 @@ ul {
   border-radius: 0.75rem;
   background: var(--taiga-cream);
   color: var(--taiga-gold);
-  margin-bottom: 1.25rem;
+  margin: 0 auto 1.25rem;
 }
 
 .service-card__icon svg {
@@ -589,11 +610,14 @@ ul {
   font-size: 1.05rem;
   margin-bottom: 0.75rem;
   line-height: 1.35;
+  text-align: center;
 }
 
 .service-card p {
   color: var(--muted-foreground);
   font-size: 0.92rem;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .benefits-grid {
@@ -615,11 +639,14 @@ ul {
   font-size: 1.05rem;
   margin-bottom: 0.75rem;
   color: var(--taiga-gold-light);
+  text-align: center;
 }
 
 .benefit-card p {
   font-size: 0.92rem;
   opacity: 0.9;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .mission-quote {
@@ -631,6 +658,8 @@ ul {
 .mission-quote p {
   margin-bottom: 1.5rem;
   opacity: 0.92;
+  text-align: justify;
+  text-wrap: pretty;
 }
 
 .mission-quote blockquote {
@@ -782,6 +811,27 @@ ul {
   border: 1px solid rgba(120,168,162,0.12);
 }
 
+.contact-brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.contact-brand img {
+  width: min(160px, 70%);
+  height: auto;
+}
+
+.contact-info h3 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.contact-item p {
+  text-align: justify;
+  text-wrap: pretty;
+}
+
 .contact-item + .contact-item {
   margin-top: 1.25rem;
 }
@@ -823,7 +873,12 @@ ul {
 }
 
 .footer__brand img {
+  width: min(170px, 100%);
+  height: auto;
   margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .footer__brand p {
@@ -916,6 +971,14 @@ ul {
   .hero-open {
     --start-w: 210px;
     --start-h: 280px;
+  }
+
+  .logo {
+    max-width: 132px;
+  }
+
+  .logo img {
+    max-height: 58px;
   }
 
   .nav-toggle {
