@@ -98,39 +98,88 @@ contactForm?.querySelectorAll("input, textarea").forEach((field) => {
 
 validateForm();
 
-contactForm?.addEventListener("submit", (event) => {
+const CONTACT_EMAIL = "contato@marquesengenhariaambiental.com.br";
+const CONTACT_WHATSAPP = "5527997711577";
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+
+contactForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const honeypot = contactForm.querySelector("#website");
   if (honeypot?.value) return;
 
   const formData = new FormData(contactForm);
-  const nome = formData.get("nome");
-  const empresa = formData.get("empresa");
-  const ramo = formData.get("ramo");
-  const telefone = formData.get("telefone");
-  const email = formData.get("email");
-  const mensagem = formData.get("mensagem");
+  const nome = String(formData.get("nome") || "").trim();
+  const empresa = String(formData.get("empresa") || "").trim();
+  const ramo = String(formData.get("ramo") || "").trim();
+  const telefone = String(formData.get("telefone") || "").trim();
+  const email = String(formData.get("email") || "").trim();
+  const mensagem = String(formData.get("mensagem") || "").trim();
 
-  // Validate email before sending
   if (!isValidEmail(email)) {
     formFeedback.textContent = "E-mail inválido. Por favor, corrija.";
     formFeedback.className = "form-feedback form-feedback--error";
     return;
   }
 
-  const subject = encodeURIComponent(`Orçamento - ${empresa}`);
-  const body = encodeURIComponent(
-    `Nome: ${nome}\nEmpresa: ${empresa}\nRamo: ${ramo}\nTelefone: ${telefone}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`
-  );
+  const messageText =
+    `Solicitação de orçamento - Marques Engenharia\n\n` +
+    `Nome: ${nome}\n` +
+    `Empresa: ${empresa}\n` +
+    `Ramo: ${ramo}\n` +
+    `Telefone: ${telefone}\n` +
+    `E-mail: ${email}\n\n` +
+    `Mensagem:\n${mensagem}`;
 
   const whatsappMessage = encodeURIComponent(
-    `Olá! Gostaria de solicitar um orçamento.\n\nNome: ${nome}\nEmpresa: ${empresa}\nRamo: ${ramo}\nTelefone: ${telefone}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`
+    `Olá! Gostaria de solicitar um orçamento.\n\n${messageText}`
   );
 
-  formFeedback.textContent = "Abrindo o e-mail e o WhatsApp...";
-  formFeedback.className = "form-feedback form-feedback--success";
+  submitBtn.disabled = true;
+  formFeedback.textContent = "Enviando solicitação...";
+  formFeedback.className = "form-feedback";
 
-  window.open(`https://wa.me/5527997711577?text=${whatsappMessage}`, "_blank", "noopener,noreferrer");
-  window.location.href = `mailto:contato@marquesengenharia.com.br?subject=${subject}&body=${body}`;
+  try {
+    const payload = new FormData();
+    payload.set("nome", nome);
+    payload.set("empresa", empresa);
+    payload.set("ramo", ramo);
+    payload.set("telefone", telefone);
+    payload.set("email", email);
+    payload.set("mensagem", mensagem);
+    payload.set("_subject", `Orçamento - ${empresa || nome}`);
+    payload.set("_template", "table");
+    payload.set("_captcha", "false");
+    payload.set("_replyto", email);
+
+    const response = await fetch(FORMSUBMIT_ENDPOINT, {
+      method: "POST",
+      body: payload,
+      headers: { Accept: "application/json" },
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(result.message || result.error || "Falha no envio do e-mail.");
+    }
+
+    // Regra: e-mail automático + mesma solicitação no WhatsApp.
+    window.open(
+      `https://wa.me/${CONTACT_WHATSAPP}?text=${whatsappMessage}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    formFeedback.textContent =
+      "Solicitação enviada por e-mail. Abrimos também o WhatsApp com a mesma mensagem.";
+    formFeedback.className = "form-feedback form-feedback--success";
+    contactForm.reset();
+    validateForm();
+  } catch (error) {
+    formFeedback.textContent =
+      "Não foi possível enviar o e-mail automaticamente. Tente novamente em instantes.";
+    formFeedback.className = "form-feedback form-feedback--error";
+    validateForm();
+  }
 });
